@@ -9,4 +9,17 @@ $border-color: red;
   p {
     background-color: $bg-color;
   }
+
+  .root {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .menuButton {
+    margin-right: 10px;
+  }
+
+  .banner{
+    flex-grow: 1;
+  }
 }
