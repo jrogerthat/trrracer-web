@@ -1,12 +1,16 @@
 import * as React from "react";
 import "./../assets/scss/App.scss";
-import GoogleLogin from "react-google-login";
-import * as googleCred from '../assets/google_cred_json_web.json'
+import {GoogleLogin}from "react-google-login";
+import * as googleCred from '../assets/google_cred_json_web.json';
+
+
 
 class Login extends React.Component{
   
-onSuccess = (res) => {
-    console.log('[Login Sucess] currentUser:', res.profileOb);
+onSuccess = async (res) => {
+    console.log('[Login Sucess] currentUser:', await res);
+    
+    
 }
 
 onFailure = (res) => {

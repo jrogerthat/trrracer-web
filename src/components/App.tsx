@@ -4,26 +4,13 @@ import { AppBar, Button, Toolbar, IconButton } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import "./../assets/scss/App.scss";
-import GoogleLogin from "react-google-login";
-import * as googleCred from '../assets/google_cred_json_web.json'
 
 import Login from "./Login";
+import Logout from "./Logout";
+
+
 
 class App extends React.Component<Record<string, unknown>, undefined> {
-  
-  async handleLogin (googleData){
-    const res = await fetch("/api/v3/auth/google", {
-        method: "POST",
-        body: JSON.stringify({
-        token: googleData.tokenId
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const data = await res.json()
-    // store returned user somehow
-  }
 
   public render() {
     return (
@@ -37,11 +24,10 @@ class App extends React.Component<Record<string, unknown>, undefined> {
               Trrracer App
             </Typography>
             <Login />
+            <Logout />
           </Toolbar>
         </AppBar>
-        <div>
-       
-        </div>
+      
       </div>
     );
   }
