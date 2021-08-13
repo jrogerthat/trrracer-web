@@ -7,6 +7,7 @@ import "./../assets/scss/App.scss";
 
 import Login from "./Login";
 import Logout from "./Logout";
+import GetSources from "./GetSources";
 
 
 
@@ -27,7 +28,7 @@ class App extends React.Component<Record<string, unknown>, undefined> {
             <Logout />
           </Toolbar>
         </AppBar>
-      
+      <GetSources></GetSources>
       </div>
     );
   }
