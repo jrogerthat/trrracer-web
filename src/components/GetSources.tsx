@@ -119,6 +119,15 @@ const GetSources = () => {
         return (
             <div>
                 <Row gutter={16} className="custom-row">
+                    <ListDocuments 
+                        visible={listDocumentsVisible}
+                        onClose={onClose}
+                        documents={documents}
+                        onSearch={listFiles}
+                        signedInUser={signedInUser}
+                        onSignOut={handleSignOutClick}
+                        isLoading={isFetchingGoogleDriveFiles}
+                    />
                     <Col span={8}>
                     <Spin spinning={null}>
                         <div onClick={() => handleClientLoad()} className="source-container">
