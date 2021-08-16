@@ -5,7 +5,6 @@ import * as googleCred from '../assets/google_cred_json_web.json';
 import { UserSingleton } from "../userSingleton";
 
 
-
 class Login extends React.Component{
 
     // Array of API discovery doc URLs for APIs
@@ -31,6 +30,42 @@ onFailure = (res) => {
     console.log('[Login Failed] res:', res);
 }
 
+      /**
+       * Append a pre element to the body containing the given message
+       * as its text node. Used to display the results of the API call.
+       *
+       * @param {string} message Text to be placed in pre element.
+       */
+appendPre(message) {
+    var pre = document.getElementById('content');
+    var textContent = document.createTextNode(message + '\n');
+    pre.appendChild(textContent);
+}
+
+      /**
+       * Print files.
+       */
+listFiles() {
+    window.gapi.client.drive.files.list({
+          'pageSize': 100,
+          'fields': "nextPageToken, files(id, name)"
+    }).then(function(response) {
+          
+          var files = response.result.files;
+          console.log('result files', response.result.files);
+
+          this.appendPre('Files:');
+          if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+              this.appendPre(file.name + ' (' + file.id + ')');
+            }
+          } else {
+            this.appendPre('No files found.');
+          }
+        });
+      }
+
 setSigninStatus= async ()=>{
     let userOb = UserSingleton.getInstance();
     let user = userOb.getUser();
@@ -49,40 +84,45 @@ setSigninStatus= async ()=>{
         // this.setState({
         //   name: user.Ot.Cd
         // });
-        const boundary='foo_bar_baz'
-        const delimiter = "\r\n--" + boundary + "\r\n";
-        const close_delim = "\r\n--" + boundary + "--";
-        var fileName='mychat123';
-        var fileData='this is a sample data';
-        var contentType='text/plain'
-        var metadata = {
-          'name': fileName,
-          'mimeType': contentType
-        };
 
-        var multipartRequestBody =
-          delimiter +
-          'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-          JSON.stringify(metadata) +
-          delimiter +
-          'Content-Type: ' + contentType + '\r\n\r\n' +
-          fileData+'\r\n'+
-          close_delim;
+        this.listFiles();
 
-          console.log('multi request body',multipartRequestBody);
-          console.log('gapi client', window.gapi.client);
-          var request = window.gapi.client.request({
-            'path': 'https://www.googleapis.com/upload/drive/v3/files',
-            'method': 'POST',
-            'params': {'uploadType': 'multipart'},
-            'headers': {
-              'Content-Type': 'multipart/related; boundary=' + boundary + ''
-            },
-            'body': multipartRequestBody});
-        console.log('request', request)
-        request.execute(function(file) {
-          console.log(file)
-        });
+        // const boundary='foo_bar_baz'
+        // const delimiter = "\r\n--" + boundary + "\r\n";
+        // const close_delim = "\r\n--" + boundary + "--";
+        // var fileName='note-otti';
+        // var fileData='hi otti';
+        // var contentType='text/plain'
+        // var metadata = {
+        //   'name': fileName,
+        //   'mimeType': contentType
+        // };
+
+        // var multipartRequestBody =
+        //   delimiter +
+        //   'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+        //   JSON.stringify(metadata) +
+        //   delimiter +
+        //   'Content-Type: ' + contentType + '\r\n\r\n' +
+        //   fileData+'\r\n'+
+        //   close_delim;
+
+        //   console.log('multi request body',multipartRequestBody);
+        //   console.log('gapi client', window.gapi.client);
+        //   var request = window.gapi.client.request({
+        //     'path': 'https://www.googleapis.com/upload/drive/v3/files',
+        //     'method': 'POST',
+        //     'params': {'uploadType': 'multipart'},
+        //     'headers': {
+        //       'Content-Type': 'multipart/related; boundary=' + boundary + ''
+        //     },
+        //     'body': multipartRequestBody});
+        // console.log('request', request)
+        // request.execute(function(file) {
+        //   console.log(file)
+        // });
+
+
       }
     }
   }
