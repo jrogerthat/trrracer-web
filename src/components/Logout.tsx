@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./../assets/scss/App.scss";
 import { GoogleLogout } from "react-google-login";
-import * as googleCred from '../assets/google_cred_json_web.json'
+import * as googleCred from '../assets/google_cred_json_web.json';
+
 
 
 class Logout extends React.Component{

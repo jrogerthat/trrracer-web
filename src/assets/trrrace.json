@@ -1,0 +1,101 @@
+{
+    "title": "/Volumes/GoogleDrive/My Drive/Artifact Trrracer Dev/Artifact Trrraces",
+    "description": "",
+    "date": "",
+    "tags": [
+        {
+            "title": "planning",
+            "color": "black"
+        },
+        {
+            "title": "meeting",
+            "color": "black"
+        },
+        {
+            "title": "google drive",
+            "color": "black"
+        },
+        {
+            "title": "mvp",
+            "color": "black"
+        },
+        {
+            "title": "capturing",
+            "color": "black"
+        },
+        {
+            "title": "trrrracer",
+            "color": "black"
+        }
+    ],
+    "entries": [
+        {
+            "title": "Planning artifact capture",
+            "description": "",
+            "files": [
+                {
+                    "title": "8_9 Meeting with DA.txt"
+                },
+                {
+                    "title": "Planning Trrrace Tool.gdoc"
+                }
+            ],
+            "date": "2021-08-09",
+            "tags": [
+                {
+                    "id": "planning",
+                    "text": "planning"
+                },
+                {
+                    "id": "meeting",
+                    "text": "meeting"
+                },
+                {
+                    "id": "google drive",
+                    "text": "google drive"
+                }
+            ]
+        },
+        {
+            "title": "Meeting with AL MM DA",
+            "description": "",
+            "files": [
+                {
+                    "title": "2-28-21 tRRRace Meeting. What do we need before Derya leaves..txt"
+                },
+                {
+                    "title": "automl_trace_dep_view.pdf"
+                },
+                {
+                    "title": "automl_trace_hist_view.pdf"
+                },
+                {
+                    "title": "Jen-sig-abstract.pdf"
+                }
+            ],
+            "date": "2021-07-28",
+            "tags": []
+        },
+        {
+            "title": "New entry",
+            "description": "",
+            "files": [],
+            "date": "2021-08-12T21:06:03.175Z",
+            "tags": []
+        },
+        {
+            "title": "New entry",
+            "description": "",
+            "files": [],
+            "date": "2021-08-12T21:19:18.587Z",
+            "tags": []
+        },
+        {
+            "title": "New entry",
+            "description": "",
+            "files": [],
+            "date": "2021-08-13T14:33:45.794Z",
+            "tags": []
+        }
+    ]
+}

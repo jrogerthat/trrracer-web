@@ -3,7 +3,8 @@ import "./../assets/scss/App.scss";
 import {GoogleLogin}from "react-google-login";
 import * as googleCred from '../assets/google_cred_json_web.json';
 import { UserSingleton } from "../userSingleton";
-import { downloadFile, getFile, googleWriteRequest, listFiles, testGoogle } from "../googleHelpers";
+import { downloadFile, getFile, getFilesFromFolder, googleWriteRequest, listFiles, testGoogle } from "../googleHelpers";
+import * as trrraceData from '../assets/trrrace.json';
 
 
 
@@ -49,30 +50,30 @@ appendPre(message) {
       /**
        * Print files.
        */
-getFilesFromFolder() {
-    window.gapi.client.drive.files.list({
-          //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
-          //'q': "name='Artifact Trrraces' and mimeType='application/vnd.google-apps.folder'",
-          //'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
-          //'q': "1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO",
-          'pageSize': 100,
-          'fields': "nextPageToken, files(id, name, webContentLink, webViewLink)"
-    }).then(function(response) {
-          console.log('response',response)
-        //   var files = response.result.files;
-        //   console.log('result files', response.result.files);
+// getFilesFromFolder() {
+//     window.gapi.client.drive.files.list({
+//           //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
+//           //'q': "name='Artifact Trrraces' and mimeType='application/vnd.google-apps.folder'",
+//           //'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
+//           //'q': "1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO",
+//           'pageSize': 100,
+//           'fields': "nextPageToken, files(id, name, webContentLink, webViewLink)"
+//     }).then(function(response) {
+//           console.log('response',response)
+//         //   var files = response.result.files;
+//         //   console.log('result files', response.result.files);
 
-        //   this.appendPre('Files:');
-        //   if (files && files.length > 0) {
-        //     for (var i = 0; i < files.length; i++) {
-        //       var file = files[i];
-        //       this.appendPre(file.name + ' (' + file.id + ')');
-        //     }
-        //   } else {
-        //     this.appendPre('No files found.');
-        //   }
-        });
-    }
+//         //   this.appendPre('Files:');
+//         //   if (files && files.length > 0) {
+//         //     for (var i = 0; i < files.length; i++) {
+//         //       var file = files[i];
+//         //       this.appendPre(file.name + ' (' + file.id + ')');
+//         //     }
+//         //   } else {
+//         //     this.appendPre('No files found.');
+//         //   }
+//         });
+//     }
 
 setSigninStatus= async ()=>{
     let userOb = UserSingleton.getInstance();
@@ -95,10 +96,12 @@ setSigninStatus= async ()=>{
         //testGoogle();
        //this.getFilesFromFolder();
        // downloadFile();
-      // googleWriteRequest('text/plain', 'testing-add', JSON.stringify(googleCred));
+      //googleWriteRequest('text/plain', 'trrrace-data', JSON.stringify(trrraceData));
        //this.getSharedDrives();
        //listFiles();
-       getFile();
+       //getFile();
+      //getFilesFromFolder();
+      downloadFile('1kq__JzGJeUqyTOThyX9bSCOkKS4L5o7C');
 
       }
     }

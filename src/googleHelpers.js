@@ -1,6 +1,7 @@
 
 import * as googleCred from './assets/google_cred_json_web.json';
-import fs from 'fs';
+import * as trrraceData from './assets/trrrace.json';
+
 
 const CLIENT_ID = googleCred.web.client_id;
 const API_KEY = googleCred.api;
@@ -12,21 +13,20 @@ const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/r
 // included, separated by spaces.
 //const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
-export function downloadFile(){
-
-    var fileId = '1MDl7ct_9q4IqAWMGbokrt6fO-IELX06T';
-    var dest = fs.createWriteStream('trrrace.json');
-    window.gapi.client.drive.files.get({
-      fileId: fileId.anchor,
-       alt: 'media'
-    })
-        .on('end', function (d) {
-          console.log('Done', d);
-        })
-        .on('error', function (err) {
-          console.log('Error during download', err);
-        })
-        .pipe(dest);
+export function downloadFile(fileId){
+  //let fileS = new FileReader();
+  
+   // var fileId = '1MDl7ct_9q4IqAWMGbokrt6fO-IELX06T';
+   // var dest = fs.createWriteStream('trrrace.json');
+   gapi.client.drive.files.get({
+    fileId: fileId,
+    alt: "media"
+  }).then(function(res) {
+    console.log('RES',res)
+    // In this case, res.body is the binary data of the downloaded file.
+  
+  });
+       // .pipe(dest);
 
 
 }
@@ -36,6 +36,49 @@ export function testGoogle(){
   console.log(test);
 
 }
+
+function download(url, filename) {
+  fetch(url).then(function(t) {
+      return t.blob().then((b)=>{
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(b);
+          a.setAttribute("download", filename);
+          a.click();
+      }
+      );
+  });
+  }
+
+export function getFilesFromFolder() {
+  console.log(window.gapi.client);
+  window.gapi.client.drive.files.list({
+        //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
+        //'q': "name='Artifact Trrraces' and mimeType='application/vnd.google-apps.folder'",
+        //'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
+        //'q': "1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO",
+        'pageSize': 100,
+        'fields': "nextPageToken, files(id, name, webContentLink, webViewLink)"
+  }).then(function(response) {
+        //console.log('response in get filed in folder',response.result.files[0].webContentLink)
+        //download(response.result.files[0].webContentLink, 'testing.json')
+
+        console.log('response',response);
+
+
+      //   var files = response.result.files;
+      //   console.log('result files', response.result.files);
+
+      //   this.appendPre('Files:');
+      //   if (files && files.length > 0) {
+      //     for (var i = 0; i < files.length; i++) {
+      //       var file = files[i];
+      //       this.appendPre(file.name + ' (' + file.id + ')');
+      //     }
+      //   } else {
+      //     this.appendPre('No files found.');
+      //   }
+      });
+  }
 
 export function listFiles(){
 
@@ -52,6 +95,8 @@ export function listFiles(){
   console.log('request', request)
   request.execute(function(file) {
     console.log('request exicuted',file)
+  }).then((f)=> {
+    console.log(f);
   });
 }
 
@@ -69,7 +114,9 @@ export function getFile(){
 
   console.log('request', request)
   request.execute(function(file) {
-    console.log('request exicuted',file)
+    console.log('found file',file)
+  }).then((f)=> {
+    console.log('in then',f);
   });
 }
 
@@ -107,6 +154,6 @@ export function googleWriteRequest(formatType, name, data){
             'body': multipartRequestBody});
         console.log('request', request)
         request.execute(function(file) {
-          console.log('request exicuted',file)
+          console.log('request write done',file);
         });
 }
