@@ -5,6 +5,7 @@ import * as googleCred from '../assets/google_cred_json_web.json';
 import { UserSingleton } from "../userSingleton";
 
 
+
 class Login extends React.Component{
 
     // Array of API discovery doc URLs for APIs
@@ -22,6 +23,8 @@ onSuccess = async (res) => {
     userOb.changeIsSignedIn();
     userOb.changeState(window.gapi.auth2.getAuthInstance());
 
+    document.getElementById('login').style.display = "none";
+    document.getElementById("logout").style.display = "block";
     this.setSigninStatus();
     
 }
@@ -129,14 +132,16 @@ setSigninStatus= async ()=>{
 
   render() {
     return (
-        <GoogleLogin
+        <div id="login">
+            <GoogleLogin 
             clientId={googleCred.web.client_id}
             buttonText="Log in with Google"
             onSuccess={this.onSuccess}
             onFailure={this.onFailure}
             cookiePolicy={'single_host_origin'}
             isSignedIn={true}
-        />
+            />
+        </div>
     );
   }
 }

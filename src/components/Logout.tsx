@@ -8,15 +8,20 @@ class Logout extends React.Component{
   
     onSuccess = () => {
         alert('Logout made successfully');
+        document.getElementById('login').style.display = "block";
+        document.getElementById("logout").style.display = "none";
     }
 
     render() {
         return (
-            <GoogleLogout
+            <div id="logout">
+                <GoogleLogout
                 clientId={googleCred.web.client_id}
                 buttonText="Logout"
                 onLogoutSuccess={this.onSuccess}
-            />
+                />
+            </div>
+           
         );
     }
 }

@@ -6,6 +6,7 @@ export let UserSingleton = (function () {
         let _state;
         let _user;
         let _isSignedIn = false;
+        let _folderName = "159mYuPKRRR15EI9m-yWXsGFLt8evWcHP";
 
         function getState(){
             return _state;
