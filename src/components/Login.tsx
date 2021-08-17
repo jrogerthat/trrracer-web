@@ -3,7 +3,7 @@ import "./../assets/scss/App.scss";
 import {GoogleLogin}from "react-google-login";
 import * as googleCred from '../assets/google_cred_json_web.json';
 import { UserSingleton } from "../userSingleton";
-
+import * as fs from 'fs';
 
 
 class Login extends React.Component{
@@ -48,26 +48,71 @@ appendPre(message) {
       /**
        * Print files.
        */
-listFiles() {
+getFilesFromFolder() {
     window.gapi.client.drive.files.list({
+          //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
+          //'q': "name='trrrace' and mimeType='application/vnd.google-apps.folder'",
+          'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
           'pageSize': 100,
           'fields': "nextPageToken, files(id, name)"
     }).then(function(response) {
-          
-          var files = response.result.files;
-          console.log('result files', response.result.files);
+          console.log('response',response.result)
+        //   var files = response.result.files;
+        //   console.log('result files', response.result.files);
 
-          this.appendPre('Files:');
-          if (files && files.length > 0) {
-            for (var i = 0; i < files.length; i++) {
-              var file = files[i];
-              this.appendPre(file.name + ' (' + file.id + ')');
-            }
-          } else {
-            this.appendPre('No files found.');
-          }
+        //   this.appendPre('Files:');
+        //   if (files && files.length > 0) {
+        //     for (var i = 0; i < files.length; i++) {
+        //       var file = files[i];
+        //       this.appendPre(file.name + ' (' + file.id + ')');
+        //     }
+        //   } else {
+        //     this.appendPre('No files found.');
+        //   }
         });
-      }
+    }
+
+downloadFile(){
+
+    var fileId = '1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO';
+    var dest = fs.createWriteStream('trrrace.json');
+    window.gapi.client.drive.files.get({
+      fileId: fileId,
+      alt: 'media'
+    })
+        .on('end', function () {
+          console.log('Done');
+        })
+        .on('error', function (err) {
+          console.log('Error during download', err);
+        })
+        .pipe(dest);
+
+}
+
+getSharedDrives(){ 
+    window.gapi.client.drives.list({
+        //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
+        //'q': "name='trrrace'",
+        'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
+        'pageSize': 100,
+        'fields': "nextPageToken, files(id, name)"
+  }).then(function(response) {
+        console.log('response',response)
+      //   var files = response.result.files;
+      //   console.log('result files', response.result.files);
+
+      //   this.appendPre('Files:');
+      //   if (files && files.length > 0) {
+      //     for (var i = 0; i < files.length; i++) {
+      //       var file = files[i];
+      //       this.appendPre(file.name + ' (' + file.id + ')');
+      //     }
+      //   } else {
+      //     this.appendPre('No files found.');
+      //   }
+      });
+}
 
 setSigninStatus= async ()=>{
     let userOb = UserSingleton.getInstance();
@@ -88,7 +133,9 @@ setSigninStatus= async ()=>{
         //   name: user.Ot.Cd
         // });
 
-        this.listFiles();
+       this.getFilesFromFolder();
+       this.downloadFile();
+       //this.getSharedDrives();
 
         // const boundary='foo_bar_baz'
         // const delimiter = "\r\n--" + boundary + "\r\n";
