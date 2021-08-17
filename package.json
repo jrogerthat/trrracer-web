@@ -76,6 +76,7 @@
     "@material-ui/icons": "^4.11.2",
     "antd": "^4.16.11",
     "axios": "^0.21.1",
+    "fs": "0.0.1-security",
     "google-auth-library": "^7.6.1",
     "googleapis": "^84.0.0",
     "lodash": "^4.17.21",

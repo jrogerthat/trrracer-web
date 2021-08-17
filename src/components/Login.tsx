@@ -3,7 +3,8 @@ import "./../assets/scss/App.scss";
 import {GoogleLogin}from "react-google-login";
 import * as googleCred from '../assets/google_cred_json_web.json';
 import { UserSingleton } from "../userSingleton";
-import * as fs from 'fs';
+import { downloadFile, getFile, googleWriteRequest, listFiles, testGoogle } from "../googleHelpers";
+
 
 
 class Login extends React.Component{
@@ -14,7 +15,7 @@ DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
 //SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
-SCOPES = 'https://www.googleapis.com/auth/drive.file';
+SCOPES = 'https://www.googleapis.com/auth/drive.file';// https://www.googleapis.com/auth/drive';
   
 onSuccess = async (res) => {
     console.log('[Login Sucess] currentUser:', await res);
@@ -51,12 +52,13 @@ appendPre(message) {
 getFilesFromFolder() {
     window.gapi.client.drive.files.list({
           //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
-          //'q': "name='trrrace' and mimeType='application/vnd.google-apps.folder'",
-          'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
+          //'q': "name='Artifact Trrraces' and mimeType='application/vnd.google-apps.folder'",
+          //'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
+          //'q': "1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO",
           'pageSize': 100,
-          'fields': "nextPageToken, files(id, name)"
+          'fields': "nextPageToken, files(id, name, webContentLink, webViewLink)"
     }).then(function(response) {
-          console.log('response',response.result)
+          console.log('response',response)
         //   var files = response.result.files;
         //   console.log('result files', response.result.files);
 
@@ -71,48 +73,6 @@ getFilesFromFolder() {
         //   }
         });
     }
-
-downloadFile(){
-
-    var fileId = '1--1P4dSPEWYYvdDWZ9yJjLWXj1TBpyVO';
-    var dest = fs.createWriteStream('trrrace.json');
-    window.gapi.client.drive.files.get({
-      fileId: fileId,
-      alt: 'media'
-    })
-        .on('end', function () {
-          console.log('Done');
-        })
-        .on('error', function (err) {
-          console.log('Error during download', err);
-        })
-        .pipe(dest);
-
-}
-
-getSharedDrives(){ 
-    window.gapi.client.drives.list({
-        //'q': "mimeType = 'application/vnd.google-apps.folder' and '159mYuPKRRR15EI9m-yWXsGFLt8evWcHP' in parents",
-        //'q': "name='trrrace'",
-        'q':"'1ORoSWskcw9SCnBGpZd0oHxd08WL7iElE' in parents",
-        'pageSize': 100,
-        'fields': "nextPageToken, files(id, name)"
-  }).then(function(response) {
-        console.log('response',response)
-      //   var files = response.result.files;
-      //   console.log('result files', response.result.files);
-
-      //   this.appendPre('Files:');
-      //   if (files && files.length > 0) {
-      //     for (var i = 0; i < files.length; i++) {
-      //       var file = files[i];
-      //       this.appendPre(file.name + ' (' + file.id + ')');
-      //     }
-      //   } else {
-      //     this.appendPre('No files found.');
-      //   }
-      });
-}
 
 setSigninStatus= async ()=>{
     let userOb = UserSingleton.getInstance();
@@ -132,46 +92,13 @@ setSigninStatus= async ()=>{
         // this.setState({
         //   name: user.Ot.Cd
         // });
-
-       this.getFilesFromFolder();
-       this.downloadFile();
+        //testGoogle();
+       //this.getFilesFromFolder();
+       // downloadFile();
+      // googleWriteRequest('text/plain', 'testing-add', JSON.stringify(googleCred));
        //this.getSharedDrives();
-
-        // const boundary='foo_bar_baz'
-        // const delimiter = "\r\n--" + boundary + "\r\n";
-        // const close_delim = "\r\n--" + boundary + "--";
-        // var fileName='note-otti';
-        // var fileData='hi otti';
-        // var contentType='text/plain'
-        // var metadata = {
-        //   'name': fileName,
-        //   'mimeType': contentType
-        // };
-
-        // var multipartRequestBody =
-        //   delimiter +
-        //   'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-        //   JSON.stringify(metadata) +
-        //   delimiter +
-        //   'Content-Type: ' + contentType + '\r\n\r\n' +
-        //   fileData+'\r\n'+
-        //   close_delim;
-
-        //   console.log('multi request body',multipartRequestBody);
-        //   console.log('gapi client', window.gapi.client);
-        //   var request = window.gapi.client.request({
-        //     'path': 'https://www.googleapis.com/upload/drive/v3/files',
-        //     'method': 'POST',
-        //     'params': {'uploadType': 'multipart'},
-        //     'headers': {
-        //       'Content-Type': 'multipart/related; boundary=' + boundary + ''
-        //     },
-        //     'body': multipartRequestBody});
-        // console.log('request', request)
-        // request.execute(function(file) {
-        //   console.log(file)
-        // });
-
+       //listFiles();
+       getFile();
 
       }
     }
