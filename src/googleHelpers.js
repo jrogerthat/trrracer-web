@@ -1,6 +1,7 @@
 
 import * as googleCred from './assets/google_cred_json_web.json';
 import * as trrraceData from './assets/trrrace.json';
+const fs = require('fs-extra')
 
 
 const CLIENT_ID = googleCred.web.client_id;
@@ -18,11 +19,32 @@ export function downloadFile(fileId){
   
    // var fileId = '1MDl7ct_9q4IqAWMGbokrt6fO-IELX06T';
    // var dest = fs.createWriteStream('trrrace.json');
+
+   // create a path you want to write to
+// :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+// but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+var path = RNFS.DocumentDirectoryPath + '/test.txt';
+
    gapi.client.drive.files.get({
     fileId: fileId,
     alt: "media"
   }).then(function(res) {
     console.log('RES',res)
+    // require the module
+
+// write the file
+RNFS.writeFile(path, res, 'utf8')
+  .then((success) => {
+    console.log('FILE WRITTEN!');
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+
+    // fsE.writeFile(
+    //   './assets',
+    //   JSON.stringify(res)
+    // );
     // In this case, res.body is the binary data of the downloaded file.
   
   });
@@ -30,24 +52,6 @@ export function downloadFile(fileId){
 
 
 }
-
-export function testGoogle(){
-
-  console.log(test);
-
-}
-
-function download(url, filename) {
-  fetch(url).then(function(t) {
-      return t.blob().then((b)=>{
-          var a = document.createElement("a");
-          a.href = URL.createObjectURL(b);
-          a.setAttribute("download", filename);
-          a.click();
-      }
-      );
-  });
-  }
 
 export function getFilesFromFolder() {
   console.log(window.gapi.client);
